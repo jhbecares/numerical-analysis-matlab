@@ -1,2 +1,2 @@
 # numerical-analysis-matlab
-This repository contains matlab code used for Numerical Analysis
+This repository contains all matlab codes used for Numerical Analysis
