@@ -1,0 +1,10 @@
+[t,u]=ode45(@funccorazon, [0, 2*pi], [0;2]);
+[t,u]=ode45(@funccorazon, [0:0.01:2*pi], [0;2]);
+x=u;
+figure(1);
+subplot(2,1,1);
+plot(t, x(1,:));
+subplot(2,1,2);
+plot(t,x(2,:));
+figure(2);
+plot(x(1,:),x(2,:));
