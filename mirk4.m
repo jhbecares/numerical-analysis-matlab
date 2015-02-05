@@ -1,6 +1,6 @@
 % mirk4.m
-% Implementa el m�todo de Runge-Kutta cl�sido de orden 4,
-% evaluando la funci�n de la EDO 
+% Implementa el metodo de Runge-Kutta clasico de orden 4,
+% evaluando la funcion de la EDO 
 % de un fichero externo
 
 function [t,u] = mirk4(t0, tFin, N, x0, fun, par)

@@ -36,21 +36,16 @@ C2 = 1;
 [t, u, resultado] = midisplin(intervalo(1), intervalo(2), x0, xT, C1, C2);
 
 if (resultado == 1)
-    disp('El problema de contorno no tiene soluci�n o son infinitas');
+    disp('El problema de contorno no tiene solucion o son infinitas');
 else  
     if (resultado == 0)
-        disp('El problema de contorno tiene una �nica soluci�n');
+        disp('El problema de contorno tiene una unica solucion');
 
     else
-        disp('El problema de contorno tiene infinitas soluciones. Se representar� una de ellas. ');
+        disp('El problema de contorno tiene infinitas soluciones. Se representara una de ellas. ');
     end
     
     hold on;
     plot(t, u(1,:), 'r');
     plot(t, u(2,:), 'g');
 end
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Recordar cambiar p, q y r
-%%%%%%%%%%%%%%%%%%%%%%%%%%%

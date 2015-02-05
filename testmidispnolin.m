@@ -22,9 +22,10 @@
 [t, u, valido] = midispnolin(intervalo(1), intervalo(2), x0, xT, C1, C2);
 
 if (valido == 1)
-    disp('No se ha encontrado solución para el problema.');
+    disp('No se ha encontrado solucion para el problema.');
 else
     hold on;
     plot(t, u(1,:), 'r');
     plot(t, u(2,:), 'g');
 end
+
