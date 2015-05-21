@@ -1,13 +1,10 @@
-function y = r(t)
-    %Pr�ctica 22.i
-    %y = -4 * t;
-
-    %Pr�ctica 22.ii
-    %y = 3 * cos(t);
-
-    %Pr�ctica 22.iii
-    %y = t;
-
-    %Pr�ctica 22.iv
-    y = sin(t);
+function f = r(t)
+    % 22i
+%    f = -4;
+%     % 22ii
+%     f = 3*cos(t);
+%     % 22iii
+     f = t;
+%     % 22iv
+%     f = sin(t);
 end

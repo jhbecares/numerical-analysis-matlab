@@ -1,52 +1,57 @@
-function [t, u, tipoResult] = midispnolin (t0, tfin, x0, xT, C1, C2)
-    TOL = 10^(-3);
-    N = 100;
-    num = 1;
-    fin = 0;
+function [t, u, s, num] = midispnolin (t0, tfin, a, b, C1, C2, N, TOL)
+  
+    s(1) = (b-a)/(tfin-t0);
+    s1 = s(1)
+    sAux = s(1);
+    uAux(:,1)=[s(1),a,1,0];
     
-    
-    if (C1 == 0)
-       if (C2 == 0)
-           % ==== En este caso, las condiciones de contorno son las
-           % siguientes: u(t0)=a, u(tfin)=b
-           % En primer lugar, resolver el método de disparo requiere
-           % resolver el PVI siguiente:
-           % v''(t)= f(t, v(t), v'(t)), t in [t0,T]
-           % v(t0) = a, v'(t0) = s
-           
-           % Escogemos s0 = (b-a)/(T-t0) y s1 = s0+ (b-x(s0,T))/(T-t0)
-           s0 = (xT - x0)/(tfin - t0);
-           f = @funcdispnolin; 
-           
-           x0_1 = [x0, s0];   
-           [tkAux, uAux] = mirk4(t0, tfin, N, x0_1, f, []);
-           s1 = s0 + (x0 - uAux(1, N+1))/(tfin-t0); 
-           
-           while (fin == 0)
-               x0_2 = [x0, s1];
-               [tkAux, ukAux] = mirk4(t0, tfin, N, x0_2, f, []);
-               
-               if (abs(ukAux(1, N+1) - tfin) <= TOL)
-                   fin = 1;
-               else
-                   sAux = s1;
-                   s1 = s1 - ((ukAux(1, N+1)-xT)*(s1-s0))/(ukAux(1, N+1) - uAux(1, N+1));
-                   s0 = sAux;
-                   uAux = ukAux;
-                   num = num+1; % Hemos completado una vuelta más
-                   % Esta variable num esta pensada para evaluar un maximo
-                   % de vueltas y parar.
-               end  
-           end
-           
-           t = tkAux;
-           u = ukAux;
-           tipoResult = 0;
-       else
-           % C2 = 1
-       end
-    else 
-        % C1 = 1
+    if (C1== 0)
+        [tAux, uAux] =  mirk4(t0, tfin, N, [a,s(1),0,1], @funcdispnolin,[]);
+        s(2) = s(1)+(b-uAux(1,N+1))/(tfin-t0);
+    else
+        [tAux, uAux] =  mirk4(t0, tfin, N, [s(1),a,1,0], @funcdispnolin,[]);
+        s(2) = s(1)+(b-uAux(2,N+1))/(tfin-t0);
     end
+    
+    cont = true;
+    num = 3;
+    while (cont)
+        
+        if (C1 == 0)
+            [tAux, uAux] =  mirk4(t0, tfin, N, [a,s(num-1),0,1], @funcdispnolin,[]);
+            s(num) = s(num-1)-(uAux(1,N+1)-b)*(s(num-1)-s(num-2))/(uAux(3, N+1));
 
+        else 
+            uant = uAux;
+            
+            [tAux, uAux] =  mirk4(t0, tfin, N, [s(num-1),a,1,0], @funcdispnolin,[]);
+            s(num) = s(num-1)-(uAux(1,N+1)-b)*(s(num-1)-s(num-2))/(uAux(1, N+1)-uant(1,N+1));
+        end
+        s(num)
+        %s(num) = s(num-1)-(uAux(1,N+1)-b)*(s(1)-sAux)/(uAux(4, N+1));
+        %s(num) = s(num-1)-(uAux(1,N+1)-b)*(s(num-1)-s(1))/(uAux(3, N+1));
+        %s(num) = s(num-1)-(uAux(1,N+1)-b)*(s(num-1)-s(1))/(tfin-t0);
+
+        
+        if (C2 == 1)
+            if (abs(uAux(1,N+1)-b) <= TOL || num > 50)
+                cont = false;
+            end
+        else
+            if (abs(uAux(2,N+1)-b) <= TOL || num > 50)
+                cont = false;
+            end
+        end
+        
+        
+        num = num+1
+        
+        %m = max(abs(uAux(1,N+1)-b));
+    end
+    uAux
+    t = tAux;
+    u = uAux;
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
 end

@@ -1,17 +1,25 @@
-% mieuler.m
-% Implementa el método de Euler, evaluando la función de la EDO 
-% de un fichero externo
-
-function [t,u] = mieuler(t0, tFin, N, x0, fun, params)
-    h = (abs(tFin-t0))/N;
-    tAux = (t0:h:tFin);
-    t = tAux;
-    u = zeros (length(x0), N+1);
-    u(:,1) = x0;
+function [t, u] = mieuler (t0, tfin, N, x0, f, par)
+    % ENTRADA
+    % t0 = tiempo inicial
+    % tfin = tiempo final T
+    % N = Numero de pasos
+    % x0 = valor inicial, vector columna
+    
+    % f(t,x) funcion de la EDO
+    % par = variable de entrada con parametros.
+    
+    % SALIDA
+    % t = vector fila de tiempos t(n)
+    % u = tabla de valores de x(t(n))
+    
+    h = (tfin - t0)/N; % paso
+    t = (t0:h:tfin); % mallado de puntos
+    u = zeros(length(x0), N+1);
+    
+    u(:,1) = x0; % Incorporamos el dato inicial
     
     for i=1:N
-       xn = (feval (fun, t(i), u(:,i)));
-       xnm1 = u(:,i) + h * xn;
-       u(:, i+1) = xnm1;
+        u(:,i+1) = u(:,i) + h*feval(f, t(i), u(:,i));
     end
+
 end

@@ -1,28 +1,29 @@
-% mirk4.m
-% Implementa el metodo de Runge-Kutta clasico de orden 4,
-% evaluando la funcion de la EDO 
-% de un fichero externo
-
-function [t,u] = mirk4(t0, tFin, N, x0, fun, par)
-% Necesitamos calcular las pendientes en 4 puntos distintos (por eso
-% se denomina de orden 4). Para ello tenemos que calcular K1, K2, 
-% K3 y K4, que eval�an la funci�n con distintos argumentos para despu�s
-% pasarle el valor final de la pendiente al c�lculo del punto actual
-% en funci�n del valor del punto anterior y la pendiente calculada
-
-    h = (abs(tFin-t0))/N;
-    tAux = (t0:h:tFin);
-    t = tAux;
-    u = zeros (length(x0), N+1);
-    u(:,1) = x0;
+ function [t, u] = mirk4 (t0, tfin, N, x0, f, par)
+    % ENTRADA
+    % t0 = tiempo inicial
+    % tfin = tiempo final T
+    % N = Numero de pasos
+    % x0 = valor inicial, vector columna
     
+    % f(t,x) funcion de la EDO
+    % par = variable de entrada con parametros.
+    
+    % SALIDA
+    % t = vector fila de tiempos t(n)
+    % u = tabla de valores de x(t(n))
+    
+    h = (tfin - t0)/N; % paso
+    t = (t0:h:tfin); % mallado de puntos
+    u = zeros(length(x0), N+1);
+    
+    u(:,1) = x0; % Incorporamos el dato inicial
     for i=1:N
-       k1 = feval(fun, t(i), u(:,i));
-       k2 = feval(fun, t(i)+h/2, u(:,i)+(h*k1)/2);
-       k3 = feval(fun, t(i)+h/2, u(:,i)+(h*k2)/2);
-       k4 = feval(fun, t(i)+h, u(:,i)+h*k3);
-       u(:,i+1) = u(:,i) + (h*(k1+2*k2+2*k3+k4))/6;
+       K1 = feval(f, t(i), u(:,i));
+       K2 = feval(f, t(i)+h/2, u(:,i)+(h/2)*K1);
+       K3 = feval(f, t(i)+h/2, u(:,i)+(h/2)*K2);
+       K4 = feval(f, t(i)+h, u(:,i)+h*K3);
+       %[K1,       K2,       K3,       K4]   
+       u(:,i+1) = u(:,i)+(h/6)*(K1+2*K2+2*K3+K4);
     end
-
+    %u(:,N+1)
 end
-
