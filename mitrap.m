@@ -22,7 +22,38 @@
     numfun = 0; 
     
     u(:,1) = x0; % Incorporamos el dato inicial
-   
+    TOL = h*h*h;
+    %itmax = 10;
+    
+    for i = 1:N
+       [u(:,i+1),evalfun] = newtonMethod(TOL, itmax, u(:,i), f, jac, h, t(i));
+       numfun = numfun + evalfun;
+    end
     
  
-end
+ end
+
+ % Evalfun: numero de evaluaciones de la funcion
+ function [zfin, evalfun] = newtonMethod(TOL, itmax, u, f, jac, h, tn)
+    evalfun = 0;
+    z(:,1) = u;
+    
+    gaux = u + h/2*feval(f, tn, u); % parte constante
+    
+    for i=2:itmax
+       evalfun = evalfun + 2;
+        
+       gaux2 = h/2*feval(f, tn+h, z(:,i-1));
+       GnZj = z(:,i-1) - gaux - gaux2;
+       DGnZj = eye(length(u))-h/2*feval(jac, tn+h, z(:,i-1));
+       W = DGnZj\GnZj;
+       z(:,i) = z(:,i-1) - W;
+       if (abs(z(:,i)-z(:,i-1)) <= TOL)
+           zfin = z(:,i);
+           return;
+       end
+    end
+    
+   zfin = z(:,itmax);
+   return;
+ end
