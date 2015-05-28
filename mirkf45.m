@@ -37,12 +37,12 @@ function [t, u, H, ERROR, rechazo, acep] = mirkf45(t0, tfin, x0, h0, hmin, TOL, 
         s(:,n+1) = t(:,n) + l; % Calculamos el nodo tentativo
         
         h = l;
-        K1 = feval(fun,t,u(:,n));     
-        K2 = feval(fun,t*(1/4),u(:,n)+h*(1/4)*K1);
-        K3 = feval(fun,t*(3/8),u(:,n)+h*(3/32)*K1+h*(9/32)*K2);
-        K4 = feval(fun,t*(12/13),u(:,n)+h*(1932/2197)*K1-h*(7200/2197)*K2+h*(7296/2197)*K3);
-        K5 = feval(fun,t*(1),u(:,n)+h*(439/216)*K1-h*(8)*K2+h*(3680/513)*K3-h*(845/4104)*K4);
-        K6 = feval(fun,t*(1/2),u(:,n)-h*(8/27)*K1+h*(2)*K2-h*(3544/2562)*K3+h*(1859/4104)*K4-h*(11/40)*K5);
+        K1 = feval(fun,t(:,n),u(:,n));     
+        K2 = feval(fun,t(:,n)*(1/4),u(:,n)+h*(1/4)*K1);
+        K3 = feval(fun,t(:,n)*(3/8),u(:,n)+h*(3/32)*K1+h*(9/32)*K2);
+        K4 = feval(fun,t(:,n)*(12/13),u(:,n)+h*(1932/2197)*K1-h*(7200/2197)*K2+h*(7296/2197)*K3);
+        K5 = feval(fun,t(:,n)*(1),u(:,n)+h*(439/216)*K1-h*(8)*K2+h*(3680/513)*K3-h*(845/4104)*K4);
+        K6 = feval(fun,t(:,n)*(1/2),u(:,n)-h*(8/27)*K1+h*(2)*K2-h*(3544/2562)*K3+h*(1859/4104)*K4-h*(11/40)*K5);
 
         % Es necesario calcular los metodos si ya tenemos el error?
         % Metodo interno -> Estimamos la aproximacion
