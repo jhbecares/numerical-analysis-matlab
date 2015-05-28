@@ -9,5 +9,5 @@
 %%%%        x1    = t
 
 function y = func20_2(t, x)
-y = (exp(x(2))) / 10 + cos(x(2) - x(2));
+y = (exp(x(1))) / 10 + cos(x(1) - x(1));
 end

@@ -7,3 +7,8 @@
 f = @funcprueba1; x0 = 1/exp(1); intervalo = [0,8]; par = []; N = 50;
 
 %f = @funcexamen1; x0 = 0; intervalo = [0,8]; N = 1000;
+
+%f = @funcprueba2; x0 = 1; intervalo = [0,2]; par = []; N = 50;
+
+
+%f = @func20_2; x0 = 1; intervalo = [0,2]; par = []; N = 50;
