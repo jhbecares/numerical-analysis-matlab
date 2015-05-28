@@ -13,7 +13,7 @@ end
 figure('name','Graficas');
 subplot(3,1,1);
 title('Solucion aproximada');
-plot (t,u,'r');
+plot (t(1:size(t,2)-1),u(1:size(u,2)-1),'r');
 title('Grafica X-t');
 subplot(3,1,2);
 plot(t(1:size(t,2)-1),ERROR,'r');
